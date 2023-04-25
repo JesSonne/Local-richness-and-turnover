@@ -1,6 +1,9 @@
 # visualyzing sampling algorithm
 require(terra) # for handling the geographical data and computations
 
+#loading sampling functions
+load("R functions.R")
+
 setwd("/Users/jespersonne/Documents/GitHub/Local-richness-and-turnover")
 reference_raster=rast("Data files/reference_raster.tif")
 
