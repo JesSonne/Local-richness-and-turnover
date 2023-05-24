@@ -11,7 +11,7 @@ reference_raster=rast("Data files/reference_raster.tif")
 
 #global mountain regions downloaded from Rahbek et al. 2019: https://macroecology.ku.dk/resources/mountain_regions
 mount=vect("...mountainregions2/CMEC_Mountains_Enh2018.shp")
-mount=project(mount,reference_raster)
+mount=terra::project(mount,reference_raster)
 
 i=86 # example with the Andes
 mount$Name[i]
