@@ -101,3 +101,99 @@ spred_dye=function(size, # number of grid cells to sample
   return(result)
 }
 
+
+#Functions used for calculating similarities between two groups with respect to binary, categorical and continuous data types
+#All functions were retrived from Geange, Shane W., et al. "A unified analysis of niche overlap incorporating data of different types." Methods in Ecology and Evolution 2.2 (2011): 175-184.
+
+#between-group similarity for binary data:
+no.bin.fn <- function(sp,yy)
+{
+  
+  spnames   <- unique(sp)
+  no.spp=length(spnames)
+  
+  counts.mat <- as.matrix(table(sp,yy))
+  props.mat  <- counts.mat/apply(counts.mat,1,sum)
+  out.mat <- matrix(1,no.spp,no.spp)
+  for (ii in 1:(no.spp-1)) for (jj in (ii+1):no.spp)
+  {
+    small.mat <- props.mat[c(ii,jj),]
+    mins <- apply(small.mat,2,min)
+    out.mat[ii,jj] <- sum(mins)
+    out.mat[jj,ii] <- sum(mins)
+  }
+  out.mat
+}
+
+#between-group similarity for categorical data:
+no.cat.fn_JS <- function(props.mat)
+{
+  
+  no.spp=nrow(props.mat)
+  out.mat <- matrix(1,no.spp,no.spp)
+  for (ii in 1:(no.spp-1)) for (jj in (ii+1):no.spp)
+  {
+    small.mat <- props.mat[c(ii,jj),]
+    mins <- apply(small.mat,2,min)
+    out.mat[ii,jj] <- sum(mins)
+    out.mat[jj,ii] <- sum(mins)
+  }
+  out.mat
+}
+
+#between-group similarity for continuous data:
+no.cts.fn <- function(sp,yy)
+{
+  
+  spnames   <- unique(sp)
+  no.spp=length(spnames)
+  # Do density estimation for each species:
+  # The density functions must have matching values of x.
+  # Go well outside the actual data at ends, to get to 
+  # zero density.
+  lowx <- min(yy)-2*sd(yy)
+  topx <- max(yy)+2*sd(yy)
+  # Define the x values for which the density functions
+  # will be calculated. These must match. Go well
+  # outside the actual data at top end, to get to zero density.
+  # Lowest value at 0, highest at topx.
+  # Let nn = number of x values.
+  nn   <- 500
+  # Find dd, the distance between spikes:
+  dd <- (topx-lowx)/(nn-1)
+  
+  x.vect <- seq(lowx,topx,length.out=nn)
+  y.mat  <- matrix(NA,no.spp,nn)
+  
+  
+  
+  
+  for (ii in 1:no.spp)
+  {
+    this.sp <- spnames[ii]
+    this.y  <- yy[sp==this.sp]
+    this.y  <- this.y[!is.na(this.y)]  # Remove missing values
+    this.n  <- length(this.y)          # Number of usable observations
+    # Need at least two points to select a bandwidth for density est.
+    if (length(this.y)>1)      # Density estimation is possible
+    {
+      this.dens <- density(this.y, n=nn, from=lowx, to=topx)[[2]]
+      this.dens=this.dens#/sum(this.dens)
+      y.mat[ii,] <- this.dens
+    }
+  }
+  # Find niche overlap for each pair of species.
+  out.mat  <- matrix(1,no.spp,no.spp)
+  for (ii in 1:(no.spp-1)) for (jj in (ii+1):no.spp)
+  {
+    min.dens <- apply(y.mat[c(ii,jj),],2,min)
+    this.no  <- sum(min.dens)*dd
+    out.mat[ii,jj] <- this.no 
+    out.mat[jj,ii] <- this.no
+  }
+  out.mat
+}
+
+
+
+
