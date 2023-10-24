@@ -1,5 +1,5 @@
 ############################################## calculating overlap probability
-setwd("/Users/jespersonne/Documents/GitHub/Local-richness-and-turnover")
+setwd("C:/Users/hzc973/Downloads/Local-richness-and-turnover-main/Local-richness-and-turnover-main")
 
 #Functions used for calculating similarities between two groups with respect to binary, categorical and continuous data types
 #All functions were retrived from Geange, Shane W., et al. "A unified analysis of niche overlap incorporating data of different types." Methods in Ecology and Evolution 2.2 (2011): 175-184.
@@ -11,13 +11,19 @@ loc=read.csv("Data files/data per mountain region.csv")
 # Define measurements of local species richness and turnover (i.e. alpha and beta)
 
 ## empirical patterns 
+gamma=loc$total_richness
+pos_rm=which(loc$total_richness<100) # excluding mountain regions with less than 100 species
 beta=loc$Species.turnover
 alpha=loc$local_richness
+gamma[pos_rm]=NA
+alpha[pos_rm]=NA
+beta[pos_rm]=NA
 pattern="Raw"
 
 ###OR
 
 #results from spatial rarefaction analyses
+gamma=rowMeans(read.csv("Data files/std_regional species richness_50gridcells.csv")[,-1])
 beta=rowMeans(read.csv("Data files/std_species turnover_50gridcells.csv")[,-1])
 alpha=rowMeans(read.csv("Data files/std_local richness_50gridcells.csv")[,-1])
 pattern="standardised"
@@ -25,6 +31,7 @@ pattern="standardised"
 ###OR
 
 #results from spatial rarefaction analyses using alternative metrics for beta diversity
+gamma=rowMeans(read.csv("Data files/std_regional species richness_50gridcells.csv")[,-1])
 beta=rowMeans(read.csv("Data files/std_Sorensen dissimilarity_50gridcells.csv")[,-1])
 alpha=rowMeans(read.csv("Data files/std_local richness_50gridcells.csv")[,-1])
 pattern="Sørensen & standardised"
@@ -151,10 +158,19 @@ P_hab
 
 
 
+###Investigating Explanatory factors for the highest regional levels of avian species richness using pairwise two-tailed Mann-Whitney U tests 
 
+#definding groups among the 10% of mountain regiosn with highest regional species richness
+group=rep("Others",nrow(loc))
+nr4=order(gamma,decreasing = T)[1:nn]
+group[nr4]="top 10% total richness"
+group[nr4[which(nr4 %in% c(nr1,nr3))]]="top 10% total richness and turnover"
+loc1=loc
+loc1[pos_rm,]=NA
 
-
-
-
+pairwise.wilcox.test(loc1$TopographicComplexity, group, p.adjust.method = "holm")
+pairwise.wilcox.test(loc1$Clim_vol_convex, group, p.adjust.method = "holm")
+pairwise.wilcox.test(loc1$NPP, group, p.adjust.method = "holm")
+pairwise.wilcox.test(loc1$average_ADF_vol, group, p.adjust.method = "holm")
 
 

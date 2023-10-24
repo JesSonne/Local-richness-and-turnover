@@ -13,7 +13,7 @@ Columns in the spreadsheet:
 8. 'MAP' Annual precipitation (mm).
 9. 'Climate volume' Area of the minimum convex polygon surrounding all conditions of MAT and MAP found within a focal mountain region.
 10. 'TopographicComplexity' standard deviation in elevations within a moutrain region.
-11. 'NPP' Average Net Primary productivity.  
+11. 'NPP' Average Net Primary productivity in units of kg carbon per m2 per year at 500 metre pixel resolution.
 12. 'average_ADF_vol' Assemblage dispersion field volume averaged per 0.25 degree grid cell.
 
 **hab_list.RData:** Frequency distribution of habitat types samples within each mountain region, stored as a list of numeric vectors. See Jung et al. (2020) for a reference key.     
