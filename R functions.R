@@ -126,7 +126,7 @@ no.bin.fn <- function(sp,yy)
 }
 
 #between-group similarity for categorical data:
-no.cat.fn_JS <- function(props.mat)
+no.cat.fn <- function(props.mat)
 {
   
   no.spp=nrow(props.mat)
