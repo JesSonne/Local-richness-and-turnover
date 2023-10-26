@@ -43,7 +43,7 @@ spred_dye=function(size, # number of grid cells to sample
   path=vector()
   
   look_up=which(empt[]==1)
-  result=c(find_id(look_up))[[1]]
+  result=c(find_id(look_up,sf1))[[1]]
   
   if(size >1){
     for(x in 1:(size-1)){
@@ -94,7 +94,7 @@ spred_dye=function(size, # number of grid cells to sample
     }
     #return(path)
     look_up=which(empt[]==1)
-    result=c(find_id(look_up))[[1]]
+    result=c(find_id(look_up,sf1))[[1]]
   } #end major if
   
   
