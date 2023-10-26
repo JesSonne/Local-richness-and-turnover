@@ -24,7 +24,7 @@ set.seed(123)
 n_rep=100 # state the number of simmulations
 
 #specify the frequency distribution of total species richness (i.e., following a log-normal distribution)
-rich=round(rlnorm(n = n_rep,meanlog = 5,sdlog = 0.5))
+rich=round(rlnorm(n = n_rep,meanlog = 5,sdlog = 1))
 hist(rich)
 
 #specify the frequency distribution of species' range sizes (i.e., following a log-normal distribution)
@@ -41,7 +41,7 @@ for(i in 1:n_rep){
   ra=sample(rs,sp_rich,prob = rs,replace = F)
   
   #simmulate distributions (optional: specify the number of cores allocated)
-  res=mclapply(X=ra,FUN = spred_dye,dis_mat = NULL,sf1 = sub_ras)
+  res=mclapply(X=ra,FUN = spred_dye,dis_mat = NULL,sf1 = sub_ras,mc.cores = 8)
   
     
   #calculate local species richness and species turnover
