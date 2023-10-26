@@ -1,5 +1,5 @@
 ############################################## calculating overlap probability
-setwd("C:/Users/hzc973/Downloads/Local-richness-and-turnover-main/Local-richness-and-turnover-main")
+setwd("/Users/jespersonne/Documents/GitHub/Local-richness-and-turnover")
 
 #Functions used for calculating similarities between two groups with respect to binary, categorical and continuous data types
 #All functions were retrived from Geange, Shane W., et al. "A unified analysis of niche overlap incorporating data of different types." Methods in Ecology and Evolution 2.2 (2011): 175-184.
@@ -7,12 +7,14 @@ source("R functions.R")
 
 #loading summarized data for each mountain region
 loc=read.csv("Data files/data per mountain region.csv")
+pos_rm=which(loc$total_richness<100) # excluding mountain regions with less than 100 species
+loc1=loc
+loc1[pos_rm,]=NA
 
 # Define measurements of local species richness and turnover (i.e. alpha and beta)
 
 ## empirical patterns 
 gamma=loc$total_richness
-pos_rm=which(loc$total_richness<100) # excluding mountain regions with less than 100 species
 beta=loc$Species.turnover
 alpha=loc$local_richness
 gamma[pos_rm]=NA
@@ -160,17 +162,27 @@ P_hab
 
 ###Investigating Explanatory factors for the highest regional levels of avian species richness using pairwise two-tailed Mann-Whitney U tests 
 
-#definding groups among the 10% of mountain regiosn with highest regional species richness
-group=rep("Others",nrow(loc))
+#defining groups among the 10% of mountain regions with highest regional species richness
+#comparing the 10% of mountain regions with highest total richness and turnover with other mountain regions
+groups_1=rep("Others",nrow(loc))
 nr4=order(gamma,decreasing = T)[1:nn]
-group[nr4]="top 10% total richness"
-group[nr4[which(nr4 %in% c(nr1,nr3))]]="top 10% total richness and turnover"
-loc1=loc
-loc1[pos_rm,]=NA
+groups_1[nr4[which(nr4 %in% c(nr1,nr3))]]="top 10% total richness and turnover"
+groups_1[pos_rm]=NA
+table(groups_1)
 
-pairwise.wilcox.test(loc1$TopographicComplexity, group, p.adjust.method = "holm")
-pairwise.wilcox.test(loc1$Clim_vol_convex, group, p.adjust.method = "holm")
-pairwise.wilcox.test(loc1$NPP, group, p.adjust.method = "holm")
-pairwise.wilcox.test(loc1$average_ADF_vol, group, p.adjust.method = "holm")
+#run Mann-Whitney U tests
+wilcox.test(loc1$TopographicComplexity~groups_1)
+wilcox.test(loc1$Clim_vol_convex~groups_1)
 
+#comparing the 10% of mountain regions with highest total richness and moderate turnover with other mountain regions
+groups_2=rep("Others",nrow(loc))
+nr4=order(gamma,decreasing = T)[1:nn]
+groups_2[nr4]="top 10% total richness"
+groups_2[nr4[which(nr4 %in% c(nr1,nr3))]]="Others"
+groups_2[pos_rm]=NA
+table(groups_2)
+
+#Mann-Whitney U tests
+wilcox.test(loc1$NPP~groups_2)
+wilcox.test(loc1$average_ADF_vol~groups_2)
 

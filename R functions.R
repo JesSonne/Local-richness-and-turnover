@@ -27,13 +27,13 @@ find_id=function(coor){
 
 
 
-#function to construct the geographical sampling fields used in the spatial rarefaction analyses
+#function to construct the geographic sampling fields used in the spatial rarefaction analyses
 spred_dye=function(size, # number of grid cells to sample
-                   dis_mat=distance_matrix(mountain_raster) #geographical distance matrix occationally used for redirecting the search algorithm
+                   dis_mat=distance_matrix(mountain_raster), #geographical distance matrix occationally used for redirecting the search algorithm
+                   sf1=mountain_raster #geographic domain used to construct the geographic sampling fields
                    ){
   
   #set.seed(135)
-  sf1=mountain_raster
   empt=sf1
   empt[which(!is.na(sf1[]))]=0
   start=sample(which(!is.na(sf1[])),1)
@@ -75,13 +75,13 @@ spred_dye=function(size, # number of grid cells to sample
       if(length(neigh)==0){
         cor=dis_mat[[1]]
         dis_mat1=dis_mat[[2]]
-        ee1=mountain_raster[nr]
+        ee1=sf1[nr]
         ee1=ee1$top_q_1
         pos=which(cor[,3] %in% ee1)
         dd1=dis_mat1[pos,-pos]
         dd2=apply(dd1,2,min)
         val=cor[-pos,][which(dd2==min(dd2)),][,3][1]
-        neigh=which(mountain_raster[]==val)
+        neigh=which(sf1[]==val)
       }
       
       get=sample(c(neigh,neigh),1)
