@@ -21,8 +21,8 @@ distance_matrix=function(mountain_raster_trimmed=mountain_raster){
 }
 
 # helper search function
-find_id=function(coor){
-  return(mountain_raster[coor])
+find_id=function(coor,sf=sf1){
+  return(sf[coor])
 }
 
 
