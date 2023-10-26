@@ -4,7 +4,7 @@
 require(terra)
 require(parallel)
 
-setwd("C:/Users/hzc973/iCloudDrive/Documents/GitHub/Local-richness-and-turnover")
+setwd("/Users/jespersonne/Downloads/Local-richness-and-turnover-main 5")
 source("R functions.R")
 
 
@@ -24,7 +24,7 @@ set.seed(123)
 n_rep=100 # state the number of simmulations
 
 #specify the frequency distribution of total species richness (i.e., following a log-normal distribution)
-rich=round(rlnorm(n = max(rich),meanlog = 4,sdlog = 0.4))
+rich=round(rlnorm(n = n_rep,meanlog = 5,sdlog = 0.5))
 hist(rich)
 
 #specify the frequency distribution of species' range sizes (i.e., following a log-normal distribution)
