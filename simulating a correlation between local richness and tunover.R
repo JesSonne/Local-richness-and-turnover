@@ -21,7 +21,7 @@ sub_ras[52,]=NA
 
 
 set.seed(123)
-n_rep=10 # state the number of simmulations
+n_rep=100 # state the number of simmulations
 
 #specify the frequency distribution of total species richness (i.e., following a log-normal distribution)
 rich=round(rlnorm(n = max(rich),meanlog = 4,sdlog = 0.4))
@@ -31,7 +31,9 @@ hist(rich)
 rs=round(rlnorm(n = max(rich),meanlog = 5,sdlog = 0.5))
 hist(rs)
 
-#running simmulations using paralell computation
+
+#running simmulations using paralell computation. 
+#might take a long time to run...
 dat=data.frame(gamma=rep(NA,n_rep),alpha=NA,beta=NA)
 for(i in 1:n_rep){
   #sample species richness and and their range sizes
