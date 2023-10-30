@@ -31,6 +31,10 @@ Columns in the spreadsheet:
 ### References
 Rahbek, C., M. K. Borregaard, B. Hermansen, D. Nogues-Bravo, and J. Fjeldså. 2019. Definition and description of the Montane Regions of the World. https://macroecology.ku.dk/resources/mountain_regions.
 
+Jung, Martin, Prabhat Raj Dahal, Stuart H. M. Butchart, Paul F. Donald, Xavier De Lamo, Myroslava Lesiv, Valerie Kapos, Carlo Rondinini, and Piero Visconti. A Global Map of Terrestrial Habitat Types. 2020 https://doi.org/10.1038/s41597-020-00599-8.
+
+
+
 
 
 
