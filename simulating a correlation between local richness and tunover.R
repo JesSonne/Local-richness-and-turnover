@@ -4,7 +4,7 @@
 require(terra)
 require(parallel)
 
-setwd("/Users/jespersonne/Downloads/Local-richness-and-turnover-main 5")
+setwd("...Downloads/Local-richness-and-turnover-main")
 source("R functions.R")
 
 

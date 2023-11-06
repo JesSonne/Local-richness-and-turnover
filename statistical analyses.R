@@ -1,5 +1,5 @@
 ############################################## calculating overlap probability
-setwd("/Users/jespersonne/Documents/GitHub/Local-richness-and-turnover")
+setwd("...Downloads/Local-richness-and-turnover-main")
 
 #Functions used for calculating similarities between two groups with respect to binary, categorical and continuous data types
 #All functions were retrived from Geange, Shane W., et al. "A unified analysis of niche overlap incorporating data of different types." Methods in Ecology and Evolution 2.2 (2011): 175-184.
